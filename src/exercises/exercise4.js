@@ -1,11 +1,14 @@
+const {map} = require("rxjs/operators");
 const {mergeMap} = require("rxjs/operators");
-const {take} = require("rxjs/operators");
 const {fromHttpRequest} = require('../utils/http');
+const {takeLast} = require("rxjs/operators");
 
+let counter = 0;
 fromHttpRequest('https://orels-moviedb.herokuapp.com/directors')
     .pipe
     (
         mergeMap(array => array),
-        take(1)
+        map(value => ++counter),
+        takeLast(1)
     )
     .subscribe(console.log);
